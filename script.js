@@ -17,7 +17,12 @@ try {
    const newsResponse = await fetch(`https://gnews.io/api/v4/top-headlines?country=${country}&token=${newsApiKey}`);
    const newsData = await newsResponse.json();
    displayNews(newsData);
-   
+
+   // get weather using capital city
+   const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${weatherApiKey}&units=metric`);
+   const weatherData = await weatherResponse.json();
+   displayWeather(weatherData, capital);
+
 } catch (error){
     console.error(error);
     alert("Something went wrong. Check county name and try again.")
