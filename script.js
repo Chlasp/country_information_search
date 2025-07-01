@@ -1,11 +1,15 @@
-const newsApiKey = '2b3058e55907280386827f1096bcb278';
-const weatherApiKey = '7f7dbcc23215b7dc58fd17ffda25ab84';
+const newsApiKey = import.meta.env.VITE_GNEWS_API_KEY;
+const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
-async function search() {
+console.log("GNews Key:", import.meta.env.VITE_GNEWS_API_KEY);
+console.log("Weather Key:", import.meta.env.VITE_OPENWEATHER_API_KEY);
+
+
+window.search = async function(){
     const country = document.getElementById('countryInput').value.trim();
     if (!country) return alert("Please enter a country.")
 
-try {
+    try {
     // find capital city of country
     const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
     const countryData = await response.json();
@@ -19,15 +23,15 @@ try {
     if(!capital || !countryCode) throw new Error("Capital City or country code not found.");
     
     // get news using country code
-   const newsResponse = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(country)}&lang=en&max=3&token=${newsApiKey}`);
-   const newsData = await newsResponse.json();
-   displayNews(newsData);
+    const newsResponse = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(country)}&lang=en&max=3&token=${newsApiKey}`);
+    const newsData = await newsResponse.json();
+    displayNews(newsData);
 
    // get weather using capital city and country code
-   const encodedCapital = encodeURIComponent(capitalQuery);
-   const weatherResponse = await fetch( `https://api.openweathermap.org/data/2.5/weather?q=${encodedCapital},${countryCode}&appid=${weatherApiKey}&units=metric`);
-   const weatherData = await weatherResponse.json();
-   displayWeather(weatherData, capital);
+    const encodedCapital = encodeURIComponent(capitalQuery);
+    const weatherResponse = await fetch( `https://api.openweathermap.org/data/2.5/weather?q=${encodedCapital},${countryCode}&appid=${weatherApiKey}&units=metric`);
+    const weatherData = await weatherResponse.json();
+    displayWeather(weatherData, capital);
 
 } catch (error){
     console.error(error);
