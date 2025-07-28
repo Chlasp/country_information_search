@@ -1,5 +1,6 @@
 const newsApiKey = import.meta.env.VITE_GNEWS_API_KEY;
 const weatherApiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+const mapsApiKey = import.meta.env.VITE_GOOGLEMAPSPLATFORM_API_KEY;
 
 window.search = async function(){
     const country = document.getElementById('countryInput').value.trim();
@@ -20,6 +21,23 @@ window.search = async function(){
     const countryCode = countryData[0]?.cca2;
     const lat = countryData[0]?.capitalInfo?.latlng?.[0]; 
     const lon = countryData[0]?.capitalInfo?.latlng?.[1];
+
+    if (lat && lon){
+        loadGoogleMaps(mapsApiKey).then(() => {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 6,
+                center: { lat: lat, lng: lon }
+            });
+
+            new google.maps.Marker({
+                position: { lat: lat, lng: lon },
+                map: map,
+            });
+        }).catch(err => {
+            console.error("Google Maps could not be loaded: ", err)
+        });
+    }
+    
     if(!capital || !countryCode || lat === undefined || lon === undefined) throw new Error("Capital City, country code, or coordinates not found.");
 
     const flagUrl = countryData[0]?.flags?.svg;
@@ -154,4 +172,24 @@ function displayCountryInfo(countryData) {
         <p><strong>Languages:<strong> ${languages}</p>
         <p><strong>Area:<strong> ${area}</p>
         `;
+}
+
+function loadGoogleMaps(mapsApiKey){
+    return new Promise((resolve, reject) => {
+        if(window.google && window.google.maps){
+            resolve(window.google.maps);
+            return;
+        } 
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = () => reject('Google Maps script failed to load');
+
+        // to define initMap function expected by Google
+        window.initMap = () => resolve(window.google.maps);
+
+        document.head.appendChild(script);
+    });
 }
