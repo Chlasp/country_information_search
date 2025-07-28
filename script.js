@@ -16,7 +16,9 @@ window.search = async function(){
         capitalQuery = 'Washington, D.C.';
     }
     const countryCode = countryData[0]?.cca2;
-    if(!capital || !countryCode) throw new Error("Capital City or country code not found.");
+    const lat = countryData[0]?.capitalInfo?.latlng?.[0]; 
+    const lon = countryData[0]?.capitalInfo?.latlng?.[1];
+    if(!capital || !countryCode || lat === undefined || lon === undefined) throw new Error("Capital City, country code, or coordinates not found.");
     
     // get news using country code
     const newsResponse = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(country)}&lang=en&max=3&token=${newsApiKey}`);
@@ -29,17 +31,16 @@ window.search = async function(){
     const weatherData = await weatherResponse.json();
     displayWeather(weatherData, capital);
 
+    // to fetch local time
+    const timeResponse = await fetch(`https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`)
+    const timeData = await timeResponse.json();
+    displayTime(timeData, capital);
+
 } catch (error){
     console.error(error);
     alert("Something went wrong. Please check country name and try again.")
 }
 
-const lat = countryData[0]?.capitalInfo?.latlng?.[0]; 
-const lon = countryData[0]?.capitalInfo?.latlng?.[1];
-
-const timeResponse = await fetch(`https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`)
-const timeData = await timeResponse.json();
-displayTime(timeData, capital);
 }
 
 // Function to display news
