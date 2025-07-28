@@ -19,6 +19,16 @@ window.search = async function(){
     const lat = countryData[0]?.capitalInfo?.latlng?.[0]; 
     const lon = countryData[0]?.capitalInfo?.latlng?.[1];
     if(!capital || !countryCode || lat === undefined || lon === undefined) throw new Error("Capital City, country code, or coordinates not found.");
+
+    const flagUrl = countryData[0]?.flags?.svg;
+    const flagContainer = document.getElementById('flagContainer');
+
+    if (flagUrl) {
+        flagContainer.innerHTML = `<img src="${flagUrl}" alt="Flag of ${country}" style="width: 100px;">`;
+    } else {
+        flagContainer.innerHTML = `<p>Flag not available for ${country}</p>`;
+    }
+        
     
     // get news using country code
     const newsResponse = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(country)}&lang=en&max=3&token=${newsApiKey}`);
