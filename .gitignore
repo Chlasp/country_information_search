@@ -1,0 +1,21 @@
+#Environment
+.env
+.env.*
+
+bfg.jar
+
+#Dependencies
+node_modules/
+
+#Build output
+dist/
+.vite/
+
+#Lock files
+package-lock.json
+
+#logs
+*.logs
+
+#JAR files
+*.jar
