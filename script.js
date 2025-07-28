@@ -1,9 +1,5 @@
 const newsApiKey = import.meta.env.VITE_GNEWS_API_KEY;
-const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY;
-
-console.log("GNews Key:", import.meta.env.VITE_GNEWS_API_KEY);
-console.log("Weather Key:", import.meta.env.VITE_OPENWEATHER_API_KEY);
-
+const weatherApiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
 window.search = async function(){
     const country = document.getElementById('countryInput').value.trim();
@@ -37,6 +33,13 @@ window.search = async function(){
     console.error(error);
     alert("Something went wrong. Please check country name and try again.")
 }
+
+const lat = countryData[0]?.capitalInfo?.latlng?.[0]; 
+const lon = countryData[0]?.capitalInfo?.latlng?.[1];
+
+const timeResponse = await fetch(`https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`)
+const timeData = await timeResponse.json();
+displayTime(timeData, capital);
 }
 
 // Function to display news
@@ -96,4 +99,16 @@ function displayWeather(data, capital) {
         // Display an error message if the weather data is not found
         weatherContainer.innerHTML = `<p>Weather data not found for ${capital}.</p>`;
     }
+}
+
+// Function to display time data for a given capital city
+function displayTime(data, capital) {
+    const timeContainer = document.getElementById('time');
+    if (!data || !data.dateTime) {
+        timeContainer.innerHTML = `<p>Time data not found for ${capital}.</p>`;
+        return;
+    }
+
+    const formattedTime = new Date(data.dateTime).toLocaleString();
+    timeContainer.innerHTML = `<h2>Time in ${capital}</h2><p>${formattedTime}</p>`;
 }
