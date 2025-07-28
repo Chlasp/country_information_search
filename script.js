@@ -10,6 +10,8 @@ window.search = async function(){
     const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
     const countryData = await response.json();
 
+    displayCountryInfo(countryData);
+
     const capital = countryData[0]?.capital?.[0];
     let capitalQuery = capital;
     if (capital.toLowerCase() === 'washington dc'){
@@ -122,4 +124,34 @@ function displayTime(data, capital) {
 
     const formattedTime = new Date(data.dateTime).toLocaleString();
     timeContainer.innerHTML = `<h2>Time in ${capital}</h2><p>${formattedTime}</p>`;
+}
+
+function displayCountryInfo(countryData) {
+    const countryInfoContainer = document.getElementById('countryInfo');
+    const country = countryData[0];
+
+    const population = country.population?.toLocaleString() || 'N/A';
+    const region = country.region || 'N/A';
+    const subregion = country.subregion || 'N/A';
+    const area = country.area ? `${country.area.toLocaleString()} km²` : 'N/A';
+
+    // to get currency names
+    const currencies = country.currencies ? 
+        Object.values(country.currencies).map(currency => currency.name).join(', ') 
+        : 'N/A';
+
+    // to get language names
+    const languages = country.languages ? 
+        Object.values(country.languages).join(', ') 
+        : 'N/A';
+
+    countryInfoContainer.innerHTML = `
+        <h2>Country Info</h2>
+        <p><strong>Population:<strong> ${population}</p>
+        <p><strong>Region:<strong> ${region}</p>
+        <p><strong>Subregion:<strong> ${subregion}</p>
+        <p><strong>Currency:<strong> ${currencies}</p>
+        <p><strong>Languages:<strong> ${languages}</p>
+        <p><strong>Area:<strong> ${area}</p>
+        `;
 }
