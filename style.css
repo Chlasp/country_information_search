@@ -29,8 +29,17 @@ h1 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/*this is to make the tabs have that hover*/
+#results > div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
 #map {
     grid-column: 1 / -1;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 input[type="text"] {
