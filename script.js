@@ -6,7 +6,10 @@ let timeInterval; // for storage of setInterval for updating time
 
 window.search = async function(){
     const country = document.getElementById('countryInput').value.trim();
-    if (!country) return alert("Please enter a country.")
+    if (!country) return alert("Please enter a country.");
+
+    const timeContainer = document.getElementById('time');
+    timeContainer.innerHTML = '<p>Loading...</p>';
 
     try {
     // find capital city of country
@@ -145,7 +148,7 @@ function startLiveClock(lat, lon, capital) {
         try {
             const timeData = await fetchTime(lat, lon);
             if (timeData?.dateTime) {
-                container.innerHTML = `<h2>Time and Date in ${capital}</h2><p>${new Date(timeData.dateTime).toLocaleString()}</p>`;
+                container.innerHTML = `<h2>Date and Time in ${capital}</h2><p>${new Date(timeData.dateTime).toLocaleString()}</p>`;
             } else container.innerHTML = `<p>Time data not found for ${capital}</p>`;
         } catch (err) {
             console.error("Error fetching time:", err);
