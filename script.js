@@ -2,6 +2,8 @@ const newsApiKey = import.meta.env.VITE_GNEWS_API_KEY;
 const weatherApiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const mapsApiKey = import.meta.env.VITE_GOOGLEMAPSPLATFORM_API_KEY;
 
+let timeInterval; // for storage of setInterval for updating time
+
 window.search = async function(){
     const country = document.getElementById('countryInput').value.trim();
     if (!country) return alert("Please enter a country.")
@@ -61,15 +63,12 @@ window.search = async function(){
     const weatherData = await weatherResponse.json();
     displayWeather(weatherData, capital);
 
-    // to fetch local time
-    const timeResponse = await fetch(`https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`)
-    const timeData = await timeResponse.json();
-    displayTime(timeData, capital);
+    if (lat && lon) startLiveClock(lat, lon, capital);
 
 } catch (error){
     console.error(error);
     alert("Something went wrong. Please check country name and try again.")
-}
+};
 
 }
 
@@ -133,15 +132,28 @@ function displayWeather(data, capital) {
 }
 
 // Function to display time data for a given capital city
-function displayTime(data, capital) {
-    const timeContainer = document.getElementById('time');
-    if (!data || !data.dateTime) {
-        timeContainer.innerHTML = `<p>Time data not found for ${capital}.</p>`;
-        return;
+async function fetchTime(lat, lon) {
+    const res = await fetch(`https://timeapi.io/api/Time/current/coordinate?latitude=${lat}&longitude=${lon}`);
+    return res.json();
+}
+
+function startLiveClock(lat, lon, capital) {
+    clearInterval(timeInterval); // stop previous interval if any
+    const container = document.getElementById('time');
+
+    async function updateTime() {
+        try {
+            const timeData = await fetchTime(lat, lon);
+            if (timeData?.dateTime) {
+                container.innerHTML = `<h2>Time and Date in ${capital}</h2><p>${new Date(timeData.dateTime).toLocaleString()}</p>`;
+            } else container.innerHTML = `<p>Time data not found for ${capital}</p>`;
+        } catch (err) {
+            console.error("Error fetching time:", err);
+        }
     }
 
-    const formattedTime = new Date(data.dateTime).toLocaleString();
-    timeContainer.innerHTML = `<h2>Time in ${capital}</h2><p>${formattedTime}</p>`;
+    updateTime(); // initial call
+    timeInterval = setInterval(updateTime, 1000); // update every second
 }
 
 function displayCountryInfo(countryData) {
