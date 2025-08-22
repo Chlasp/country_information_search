@@ -78,7 +78,7 @@ function displayNews(data) {
     // Get the news container element
     const newsContainer = document.getElementById('news');
     // Set the innerHTML of the news container to a heading
-    newsContainer.innerHTML = '<h2>Latest News</h2>';
+    newsContainer.innerHTML = '<h2>Latest News📰</h2>';
     
     // Check if the data contains articles and if the length of the articles array is greater than 0
     if (data.articles && data.articles.length > 0) {
@@ -121,8 +121,8 @@ function displayWeather(data, capital) {
 
         // Display the weather data in the weather container
         weatherContainer.innerHTML = `
-            <h2>Weather in ${capital}</h2>
-            <p>Temperature: ${tempC}°C / ${tempF}°F</p>
+            <h2>☀️Weather in ${capital}</h2>
+            <p>Temperature🌡️: ${tempC}°C / ${tempF}°F</p>
             <p>Condition: ${weather.description}</p>
             <p>Humidity: ${data.main.humidity}%</p>
         `;
@@ -165,12 +165,12 @@ function displayCountryInfo(countryData) {
 
     countryInfoContainer.innerHTML = `
         <h2>Country Info</h2>
-        <p><strong>Population:<strong> ${population}</p>
-        <p><strong>Region:<strong> ${region}</p>
-        <p><strong>Subregion:<strong> ${subregion}</p>
-        <p><strong>Currency:<strong> ${currencies}</p>
-        <p><strong>Languages:<strong> ${languages}</p>
-        <p><strong>Area:<strong> ${area}</p>
+        <p><strong>Population:</strong> ${population}</p>
+        <p><strong>Region:</strong> ${region}</p>
+        <p><strong>Subregion:</strong> ${subregion}</p>
+        <p><strong>Currency:</strong> ${currencies}</p>
+        <p><strong>Languages:</strong> ${languages}</p>
+        <p><strong>Area:</strong> ${area}</p>
         `;
 }
 
