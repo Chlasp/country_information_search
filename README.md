@@ -100,7 +100,7 @@ Follow these steps to set up and run the project locally.
 
 <!-- LICENSE -->
 ## License
-Distributed under the MIT license. See `LICENSE.txt` for more information.
+Distributed under the MIT license. See `license` for more information.
 
 <!-- CONTACT -->
 ## Contact
@@ -111,8 +111,8 @@ Project Link: [https://github.com/Chlasp/Customer-product-review-analyzer](https
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-[license-shield]: https://img.shields.io/github/license/github_username/Customer-product-review-analyzer.svg?style=for-the-badge
-[license-url]: https://github.com/Chlasp/Customer-product-review-analyzer/blob/main/LICENSE.txt
+[license-shield]: https://img.shields.io/github/license/github_username/country_information_search.svg?style=for-the-badge
+[license-url]: https://github.com/Chlasp/country_information_search/blob/main/license
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: www.linkedin.com/in/david-balogun-428a0b329
 [product-screenshot]: images/screenshot.png
