@@ -114,5 +114,5 @@ Project Link: [https://github.com/Chlasp/Customer-product-review-analyzer](https
 [license-shield]: https://img.shields.io/badge/lICENSE-MIT-Green?style=for-the-badge
 [license-url]: https://github.com/Chlasp/country_information_search/blob/main/license
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: www.linkedin.com/in/david-balogun-428a0b329
+[linkedin-url]: https://linkedin.com/in/david-balogun-428a0b329
 [product-screenshot]: images/screenshot.png
